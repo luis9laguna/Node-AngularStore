@@ -7,22 +7,32 @@ const bcrypt = require('bcryptjs');
 //GET
 const getUser = async(req, res) =>{
 
-    const user = await User.find();
+    try{
 
-    res.json({
-        ok: true,
-        user,
-        uid: req.uid
-    });
+        const users = await User.find();
+    
+        res.json({
+            ok: true,
+            users,
+            uid: req.uid
+        });
+
+    }catch(err){
+
+        console.log(err);
+        res.status(500).json({
+            ok: false,
+            message: "Unexpected Error"
+        });
+    }
 }
 
 //CREATE
 const createUser = async(req, res) => {
 
-    const { email, password } = req.body;
-    
     try{
-
+        
+        const { email, password } = req.body;
         const existEmail = await User.findOne({email});
 
         //VERIFY EMAIL
@@ -61,26 +71,27 @@ const createUser = async(req, res) => {
 //UPDATE    
 const updateUser = async (req, res) =>{
 
-    const uid = req.params.id;
-
     try{
-
+        
+        const uid = req.params.id;
         const userDB = await User.findById( uid );
 
+        //VERIFY USER
         if(!userDB){
             return res.status(404).json({
                 ok: false,
                 message: "User not found"
-            })
+            });
         }
 
-        const {password, google, ...field} = req.body;
+        //UPDATE USER
+        const { password, google, ...field } = req.body;
         const userUpdate = await User.findByIdAndUpdate( uid, field, { new : true } );
         
         res.json({
             ok:true,
             user: userUpdate
-        })
+        });
 
     }catch(err){
         console.log(err);
@@ -94,25 +105,26 @@ const updateUser = async (req, res) =>{
 //DELETE
 const deleteUser = async (req, res) => {
 
-    const uid = req.params.id;
-        
     try{
-
+        
+        const uid = req.params.id;
         const userDB = await User.findById( uid );
 
+        //VERIFY USER
         if(!userDB){
             return res.status(404).json({
                 ok: false,
                 message: "User not found"
-            })
+            });
         }
 
+        //DELETE USER
         await User.findByIdAndDelete( uid );
         
         res.json({
             ok:true,
             message: "User deleted"
-        })
+        });
 
     }catch(err){
         console.log(err);
