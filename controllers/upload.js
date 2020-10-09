@@ -10,12 +10,12 @@ const { updateImage } = require('../helpers/update-image');
 //CODE
 const router = Router();
 
-//SEARCH PRODUCT
+//UPLOAD IMAGE
 const upload = async (req, res) => {
 
     const id = req.params.id;
     const collection = req.params.collection;
-    const validCollections = ['products', 'categories']; 
+    const validCollections = ['product', 'category']; 
 
     //VERIFY COLLECTION
     if ( !validCollections.includes( collection ) ) {
@@ -71,6 +71,7 @@ const upload = async (req, res) => {
 
 }
 
+//GET IMAGE
 const getImage = async (req, res) => {
 
     const collection = req.params.collection;

@@ -4,7 +4,8 @@ const { check } = require('express-validator');
 
 //FUNCTIONS
 const { checkParams } = require('../middlewares/check-params');
-const { getCategory, getCategoryByID, createCategory, updateCategory, deleteCategory } = require('../controllers/category');
+const { getCategory, getProductByCategory, createCategory, updateCategory, 
+        deleteCategory } = require('../controllers/category');
 const { checkJWT, checkAdmin } = require('../middlewares/check-jwt');
 
 //CODE
@@ -13,8 +14,8 @@ const router = Router();
 //GET
 router.get('/', getCategory);
 
-//GET BY ID
-router.get('/:id', getCategoryByID);
+//GET PRODUCT BY CATEGORY
+router.get('/:id', getProductByCategory);
 
 //POST
 router.post('/',

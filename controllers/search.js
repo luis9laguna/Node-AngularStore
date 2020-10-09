@@ -45,18 +45,18 @@ const SearchOne = async (req, res) => {
         let data = [];
 
         switch (collection){
-            case 'products':
+            case 'product':
                 data = await Product.find({name: regex});     
             break;
 
-            case 'categories':
+            case 'category':
                 data = await Category.find({name: regex});
             break;
 
             default:
                  res.status(400).json({
                     ok: false,
-                    message: "The params has to be 'products' or 'categories'"
+                    message: "The params has to be 'product' or 'category'"
                 });  
         }
 

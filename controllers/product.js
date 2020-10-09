@@ -8,7 +8,7 @@ const getProduct = async (req, res) => {
 
     try{
 
-        const products = await Product.find().sort('name');
+        const products = await Product.find({ "available": true }).sort('name');
     
         res.json({
             ok: true,
@@ -30,7 +30,8 @@ const getProductByID = async (req, res) => {
     try{
         
         const uid = req.params.id;
-        const product = await Product.findById(uid);
+        const product = await Product.findById(uid)
+                                    .populate("category", "name image");
     
         res.json({
             ok: true,
@@ -117,8 +118,42 @@ const updateProduct = async (req, res) => {
     }
 }
 
-//DELETE
+//DELETE 
 const deleteProduct = async (req, res) => {
+
+    try{
+
+        const uid = req.params.id;
+        const ProductDB = await Product.findById( uid );
+
+        //VERIFY PRODUCT
+        if(!ProductDB){
+            return res.status(404).json({
+                ok: false,
+                message: "Product not found"
+            });
+        }
+        
+        //DELETE PRODUCT
+        ProductDB.available = false;
+        await Product.findByIdAndUpdate( uid, ProductDB );
+        
+        res.json({
+            ok:true,
+            message: "Product deleted"
+        });
+
+    }catch(err){
+        console.log(err);
+        res.status(500).json({
+            ok:false,
+            message: "Error Unexpected, check logs"
+        });
+    }
+}
+
+//DELETE DEFINITY
+const deleteDefinityProduct = async (req, res) => {
 
     try{
 
@@ -138,7 +173,7 @@ const deleteProduct = async (req, res) => {
         
         res.json({
             ok:true,
-            message: "Product deleted"
+            message: "Product definity deleted"
         });
 
     }catch(err){
@@ -156,6 +191,7 @@ module.exports = {
     getProductByID,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    deleteDefinityProduct
     
 }

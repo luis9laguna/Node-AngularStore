@@ -11,14 +11,14 @@ const updateImage = async ( collection, id, namefile ) => {
     let oldPath = "";
 
     switch (collection) {
-        case 'products':
+        case 'product':
 
             const product = await Product.findById(id);
             if (!product) {
                 return false;
             }
 
-            oldPath = `./uploads/products/${ product.image }`;
+            oldPath = `./uploads/product/${ product.image }`;
             //ELIMINATED OLD IMAGE
             if( fs.existsSync( oldPath ) ) {
                 fs.unlinkSync( oldPath );
@@ -32,7 +32,7 @@ const updateImage = async ( collection, id, namefile ) => {
 
         break;
 
-        case 'categories':
+        case 'category':
             
             const category = await Category.findById(id);
 
@@ -40,7 +40,7 @@ const updateImage = async ( collection, id, namefile ) => {
                 return false;
             }
 
-            oldPath = `./uploads/categories/${ category.image }`;
+            oldPath = `./uploads/category/${ category.image }`;
             //ELIMINATED OLD IMAGE
             if( fs.existsSync( oldPath ) ) {
                 fs.unlinkSync( oldPath );

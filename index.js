@@ -25,8 +25,6 @@ app.use('/api/category', require('./routes/category'));
 app.use('/api/product', require('./routes/product'));
 app.use('/api/upload', require('./routes/upload'));
 app.use('/api/search', require('./routes/search'));
-app.use('/api/cart', require('./routes/cart'));
-app.use('/api/order', require('./routes/order'));
  
 //LISTEN
 app.listen( process.env.PORT, () => {

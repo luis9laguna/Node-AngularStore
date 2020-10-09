@@ -1,5 +1,6 @@
 //REQUIRED
 const Category = require('../models/category');
+const Product = require('../models/product');
 
 //CODE
 
@@ -24,17 +25,20 @@ const getCategory = async (req, res) => {
     }
 }
 
-//GET BY ID
-const getCategoryByID = async (req, res) => {
+
+//GET All PRODUCT BY CATEGORY
+const getProductByCategory = async (req, res) => {
     
     try{
         
         const uid = req.params.id;
+        const products = await Product.find({"category": uid, "available": true }).sort('name');
         const category = await Category.findById(uid);
     
         res.json({
             ok: true,
-            category
+            category,
+            products
         });
         
     } catch(err){
@@ -153,7 +157,7 @@ const deleteCategory = async (req, res) => {
 
 module.exports = {
     getCategory,
-    getCategoryByID,
+    getProductByCategory,
     createCategory,
     updateCategory,
     deleteCategory

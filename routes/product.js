@@ -4,7 +4,8 @@ const { check } = require('express-validator');
 
 //FUNCTIONS
 const { checkParams } = require('../middlewares/check-params');
-const { getProduct, getProductByID, createProduct, updateProduct, deleteProduct } = require('../controllers/product');
+const { getProduct, getProductByID, createProduct, updateProduct, 
+    deleteDefinityProduct, deleteProduct } = require('../controllers/product');
 const { checkJWT, checkAdmin } = require('../middlewares/check-jwt');
 
 //CODE
@@ -35,6 +36,9 @@ router.put('/:id',
 
 //DELETE
 router.delete('/:id', [checkJWT, checkAdmin], deleteProduct);
+
+//DELETE DEFINITY
+router.delete('/definity/:id', [checkJWT, checkAdmin], deleteDefinityProduct);
 
 
 

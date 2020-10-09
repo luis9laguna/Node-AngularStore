@@ -39,7 +39,7 @@ const checkAdmin = async(req, res, next) => {
 
     const role = req.role;
     
-    if(role == "USER_ADMIN"){
+    if(role == "ADMIN_ROLE"){
         next();
     }else{
         return res.status(401).send({
